@@ -1,0 +1,27 @@
+﻿@using AccesoPaso1.Models
+@{
+    ViewBag.Title = "BuscarProd";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Lista de productos con nombre @ViewBag.SearchKey</h3>
+<table cellpadding="2" cellspacing="2" border="1">
+    <tr>
+        <th>Nombre</th>
+        <th>Foto</th>
+        <th>Precio</th>
+        <th>Comprar</th>
+    </tr>
+    @foreach (producto producto in ViewBag.Listado)
+    {
+        <tr>
+            <th>@producto.nombre</th>
+            <th><img src="~/Content/img/productos/@producto.imagen"</th>
+            <th>@producto.precio</th>
+            <th align="center">
+                <a href="@Url.Action("Comprar","Carro",new { id= producto.Id_producto})"></a>
+            </th>
+        </tr>
+    }
+</table>
+

@@ -1,0 +1,47 @@
+﻿@using AccesoPaso1.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Carro de compra</h2>
+<table class="table table-bordered table-responsive table-striped">
+    <thead>
+        <tr class="info">
+            <th>Opción</th>
+            <th>Nombre</th>
+            <th>Foto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    @foreach (Item item in (List<Item>)Session["cart"])
+    {
+        <tr>
+            <th><a href="@Url.Action("Quitar","Carro",new { id=item.Product.Id_producto })">Quitar</a></th>
+            <th>@item.Product.nombre</th>
+            <th><img class="img-responsive" src="~/Content/img/productos/@item.Product.imagen" /></th>
+            <th>@item.Product.precio</th>
+            <th>@item.Product.stock</th>
+            <th>@(item.Product.precio*item.Cantidad)</th>
+        </tr>
+    }
+    <tr>
+        <td align="right" colspan="6">Total</td>
+        <td>
+            @{ 
+                List<Item> cart = (List<Item>)Session["cart"];
+                var total= cart.Sum(item=> item.Product.precio * item.Cantidad)
+            }
+            @total
+        </td>
+    </tr>
+</table> 
+
+<br />
+<a class="btn btn-warning" href="@Url.Action("Index","Home")"> Continuar comprando</a>
+<p style="float:right;color:white">
+    @Html.ActionLink("Confirmar orden", "CrearOrden", "Checkout", new { area = "" }, new { @class="btn btn-success"} )
+</p>
+
